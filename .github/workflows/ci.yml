@@ -4,8 +4,7 @@ on:
   push:
     branches: ["**"]
 
-# Keep this ONLY if you want ZAP to open GitHub issues automatically.
-# If you don't care, delete this whole permissions block or set GITHUB_TOKEN: "" in the ZAP step below.
+# Keep this only if you want ZAP to open GitHub issues automatically.
 permissions:
   contents: read
   issues: write
@@ -43,7 +42,7 @@ jobs:
 
       - name: ZAP Baseline DAST
         uses: zaproxy/action-baseline@v0.15.0
-        # If you do NOT want GitHub Issues created by ZAP, uncomment the next 3 lines:
+        # If you do NOT want Issues created by ZAP, uncomment:
         # env:
         #   GITHUB_TOKEN: ""
         with:
@@ -54,12 +53,12 @@ jobs:
         if: always()
         run: docker rm -f api
 
-    sbom_and_deps:
+  sbom_and_deps:             # ✅ SBOM via Syft + pip-audit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Generate CycloneDX SBOM for the repo with Syft
+      # SBOM (CycloneDX JSON) without Python CLI drama
       - name: Generate SBOM (CycloneDX via Syft)
         uses: anchore/sbom-action@v0
         with:
@@ -73,13 +72,12 @@ jobs:
           name: sbom
           path: sbom.json
 
-      # Dependency audit stays (separate tool, separate signal)
+      # Dependency audit (Python)
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: pip-audit (strict)
         run: |
           python -m pip install --upgrade pip
-
           python -m pip install pip-audit
           pip-audit -r requirements.txt --strict
