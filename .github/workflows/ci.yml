@@ -4,9 +4,8 @@ on:
   push:
     branches: ["**"]
 
-# write perms so lint can auto-commit Black formatting
 permissions:
-  contents: write
+  contents: read
   issues: write
 
 jobs:
@@ -28,8 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - uses: actions/cache@v4
@@ -38,24 +35,12 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
           restore-keys: ${{ runner.os }}-pip-
       - run: python -m pip install black flake8
-
-      # Format the repo
-      - name: Run Black (format)
+      # Format the workspace, then verify and lint
+      - name: Black format
         run: black .
-
-      # Auto-commit any Black changes
-      - name: Commit formatting (if any)
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "style: format with Black"
-          commit_user_name: "ci-bot"
-          commit_user_email: "ci@example.com"
-          commit_author: "ci-bot <ci@example.com>"
-
-      # Verify + lint
-      - name: Run Black (check)
+      - name: Black check
         run: black --check .
-      - name: Run Flake8
+      - name: Flake8
         run: flake8 .
 
   build_and_zap:
