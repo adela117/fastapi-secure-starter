@@ -7,6 +7,16 @@ Tiny FastAPI service with real guardrails: rate limiting, header API key, Promet
 ![Security](https://img.shields.io/badge/SBOM-CycloneDX-blue)
 ![DAST](https://img.shields.io/badge/DAST-ZAP%20baseline-purple)
 
+<p align="left">
+  <a href="https://www.linkedin.com/in/albert-de-la-cruz-282-fiu/" target="_blank">
+    <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin&logoColor=white">
+  </a>
+  <a href="mailto:delacruz.albert@proton.me">
+    <img alt="Email" src="https://img.shields.io/badge/Email-Contact-informational?logo=gmail&logoColor=white">
+  </a>
+</p>
+
+
 - ✅ Automated tests on every push/PR using Pytest (/health and auth behavior)
 - ✅ Style + lint gates with Black (auto-format + check) and Flake8 (fails on issues)
 - ✅ Container build & run in CI: image built with Buildx, started in the workflow, and health-checked
