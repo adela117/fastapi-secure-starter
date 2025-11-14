@@ -7,11 +7,13 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 
+# basic logging
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 log = logging.getLogger("secure-api")
 
 app = FastAPI(title="Secure API", version=os.getenv("APP_VERSION", "0.1.0"))
 
+# permissive CORS for demo; lock down in real life
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# security headers
 @app.middleware("http")
 async def set_security_headers(request: Request, call_next):
     response = await call_next(request)
@@ -29,7 +31,7 @@ async def set_security_headers(request: Request, call_next):
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
     return response
 
-
+# access log
 @app.middleware("http")
 async def access_log(request: Request, call_next):
     start = time.time()
@@ -38,21 +40,17 @@ async def access_log(request: Request, call_next):
     log.info("%s %s %s %dms", request.method, request.url.path, response.status_code, ms)
     return response
 
-
 @app.get("/health", tags=["meta"])
 def health() -> Dict[str, Any]:
     return {"status": "ok", "ts": int(time.time())}
-
 
 class EchoBody(BaseModel):
     message: str
     count: int = 1
 
-
 @app.post("/echo", tags=["demo"])
 def echo(body: EchoBody) -> Dict[str, Any]:
     return {"echo": body.message, "count": body.count, "received_at": int(time.time())}
-
 
 @app.get("/version", tags=["meta"])
 def version() -> Dict[str, Any]:
