@@ -36,7 +36,6 @@ runtime hardening (API key, rate limit, security headers).
 ## Screenshots
 > Put PNGs in `docs/` and these will render.
 ![CI green](docs/ci-green.png)
-![Swagger](docs/swagger.png)
 
 ## Quick links
 - API docs when running or deployed: `/docs`
