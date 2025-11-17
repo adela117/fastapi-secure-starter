@@ -1,4 +1,4 @@
-# FastAPI Secure Starter      (FastAPI + DevSecOps)
+# FastAPI Shield      (FastAPI + DevSecOps)
 
 Tiny FastAPI service with real guardrails: rate limiting, header API key, Prometheus metrics, security headers, Docker, and a CI pipeline that actually blocks bad changes (tests, lint, SBOM, dep audit, image vuln scan, baseline DAST).
 
