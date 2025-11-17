@@ -1,9 +1,9 @@
 ---
-title: Secure API FastAPI CI
+title: FastAPI Secure Starter
 layout: default
 ---
 
-# Secure API FastAPI CI
+# FastAPI Secure Starter
 
 Production-minded FastAPI template validated entirely in GitHub Actions:
 tests, lint, container boot & health-check, ZAP baseline DAST, CycloneDX SBOM,
