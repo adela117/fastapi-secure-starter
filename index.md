@@ -35,6 +35,7 @@ runtime hardening (API key, rate limit, security headers).
 
 ## Screenshots
 ![CI green](docs/ci-green.png)
+![swagger](docs/swagger.png)
 
 ## Quick links
 - API docs when running or deployed: `/docs`
